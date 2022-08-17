@@ -8,16 +8,44 @@ const App = () => {
   const [todoList, setTodoList] = useState([]);
 
   const getTodo = () => {
-    fetch("http://localhost:8080/todos", {
-      method: "get",
-    })
+    fetch("http://localhost:8080/todos/")
       .then((res) => res.json())
-      .then((res) => setTodoList(res));
+      .then((res) => {
+        setTodoList(res);
+      })
+      .catch((err) => console.log(err));
   };
 
-  const addTodo = () => {};
+  const addTodo = ({ title, contents }) => {
+    const newTodo = {
+      todoTitle: title,
+      todoContents: contents,
+    };
 
-  const deleteTodo = () => {};
+    fetch("http://localhost:8080/todos/", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newTodo),
+    })
+      .then((res) => {
+        if (res.status === 201 || res.status === 200) {
+          getTodo();
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const deleteTodo = (id) => {
+    fetch(`http://localhost:8080/todos/${id}`, { method: "delete" }) //
+      .then((res) => {
+        if (res.status === 202 || 204) {
+          getTodo();
+        }
+      });
+  };
 
   const updateTodo = () => {};
 

@@ -1,0 +1,10 @@
+.todo--item {
+  width: 33%;
+  height: 33%;
+  background: powderblue;
+  margin-bottom: 20px;
+}
+
+.icon {
+  cursor: pointer;
+}
